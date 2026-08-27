@@ -113,7 +113,7 @@ Then open http://localhost:8000 in your browser.
 
 ## Usage
 
-1. Enter a full URL into the input field (e.g., `https://www.google.com`)
+1. Enter a **full** URL into the input field (e.g., `https://www.google.com`), otherwise you won't get good results.
 2. Click **Check URL** to run inference
 3. Or click **Random URL** to test with a random example
 4. View the prediction (Phishing / Legitimate) and confidence score
