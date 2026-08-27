@@ -49,3 +49,19 @@ async function predict(){
         result.innerHTML="Error: "+e.message;
     }
 }
+
+function randomUrl() {
+  const urls = [
+    "https://www.github.com",
+    "https://www.wikipedia.org",
+    "https://www.youtube.com",
+    "https://www.n0t-a-ph1sh1ng-s1te/free-bitcoin.com",
+    "http://58.23.215.162:8765/",
+    "http://36.249.46.173:8765/",
+    "http://www.download-more-ram.abc"
+  ];
+
+  const random = urls[Math.floor(Math.random() * urls.length)];
+
+  document.getElementById("urlInput").value = random;
+}
