@@ -11,7 +11,7 @@ This project trains a machine learning model on real phishing datasets, converts
 ## Interface
 
 <p align="center">
-  <img src="interface.png" alt="Interface" style="width: 75%;">
+  <img src="interface.png" alt="Interface"">
 </p>
 
 ## How It Works
