@@ -1,0 +1,19 @@
+# features
+'''' URLLength
+DomainLength
+IsDomainIP
+URLSimilarityIndex
+NoOfSubDomain
+HasObfuscation
+NoOfObfuscatedChar
+ObfuscationRatio
+NoOfLettersInURL
+LetterRatioInURL
+NoOfDegitsInURL
+DegitRatioInURL
+NoOfEqualsInURL
+NoOfQMarkInURL
+NoOfAmpersandInURL
+NoOfOtherSpecialCharsInURL
+SpacialCharRatioInURL
+IsHTTPS '''
