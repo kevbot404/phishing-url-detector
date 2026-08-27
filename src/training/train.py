@@ -3,6 +3,7 @@ import joblib
 import pandas as pd
 
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import (
     accuracy_score,
@@ -13,7 +14,7 @@ from sklearn.metrics import (
     classification_report
 )
 
-from src.preprocessing.preprocess import extract_features
+from src.preprocessing.preprocess import extract_features_dict
 
 df = pd.read_csv("data/data.csv")
 
@@ -37,11 +38,17 @@ features = [
     "IsHTTPS"
 ]
 
-# derive features from the raw URL using the SAME extract_features()
-# pipeline that test.py / preprocess.py use.
 print("Extracting features from raw URLs via preprocess.py ...")
-X = pd.DataFrame(df["URL"].apply(extract_features).tolist(), columns=features)
-y = df["label"]
+
+feature_df = pd.DataFrame(df["URL"].apply(extract_features_dict).tolist())
+feature_df["ClassLabel"] = df["label"]
+
+X = feature_df.drop(
+    "ClassLabel",
+    axis=1
+)
+
+y = feature_df["ClassLabel"]
 
 X_train, X_test, y_train, y_test = train_test_split(
     X,
@@ -61,23 +68,40 @@ model = RandomForestClassifier(
 
 model.fit(X_train, y_train)
 
-y_pred = model.predict(X_test)
-y_prob = model.predict_proba(X_test)[:, 1]
+prediction = model.predict(X_test)
 
-print("Accuracy :", accuracy_score(y_test, y_pred))
-print("Precision:", precision_score(y_test, y_pred))
-print("Recall   :", recall_score(y_test, y_pred))
-print("F1       :", f1_score(y_test, y_pred))
-print("ROC-AUC  :", roc_auc_score(y_test, y_prob))
+print("\nAccuracy:")
+
+print(
+    accuracy_score(
+        y_test,
+        prediction
+    )
+)
 
 print("\nClassification Report:")
-print(classification_report(y_test, y_pred))
+
+print(
+    classification_report(
+        y_test,
+        prediction
+    )
+)
+
+print("\nConfusion Matrix:")
+
+print(
+    confusion_matrix(
+        y_test, 
+        prediction
+    )
+)
 
 os.makedirs("models", exist_ok=True)
 
 model_data = {
     "model": model,
-    "features": features
+    "features": X.columns.tolist()
 }
 
 joblib.dump(model_data, "models/model.pkl")

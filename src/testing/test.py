@@ -11,7 +11,7 @@ from sklearn.metrics import (
     confusion_matrix,
 )
 
-from preprocessing.preprocess import extract_features
+from src.preprocessing.preprocess import extract_features
 
 MODEL_PATH = "models/model.pkl"
 DATASET_PATH = "data/external_dataset.csv"
