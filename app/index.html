@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <title>URL Phishing Detector</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+
+    <style>
+      body {
+        font-family: Arial;
+        max-width: 600px;
+        margin: 50px auto;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+      }
+
+      button {
+        margin-top: 15px;
+        padding: 12px 20px;
+        cursor: pointer;
+      }
+
+      #result {
+        margin-top: 25px;
+        padding: 15px;
+        border-radius: 5px;
+        background: #eee;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>URL Phishing Detector</h2>
+
+    <input id="urlInput" placeholder="Enter URL" />
+
+    <button onclick="predict()">Check URL</button>
+
+    <div id="result">Waiting...</div>
+
+    <script src="preprocess.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

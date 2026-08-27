@@ -19,7 +19,12 @@ initial_type = [
 
 onnx_model = convert_sklearn(
     model,
-    initial_types=initial_type
+    initial_types=initial_type,
+    options={
+        id(model): {
+            "zipmap": False
+        }
+    }
 )
 
 os.makedirs("models", exist_ok=True)
