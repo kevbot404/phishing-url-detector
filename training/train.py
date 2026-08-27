@@ -1,3 +1,5 @@
+import os
+import joblib
 import pandas as pd
 
 from sklearn.model_selection import train_test_split
@@ -10,6 +12,8 @@ from sklearn.metrics import (
     roc_auc_score,
     classification_report
 )
+
+from preprocessing.preprocess import extract_features
 
 df = pd.read_csv("data/data.csv")
 
@@ -33,7 +37,10 @@ features = [
     "IsHTTPS"
 ]
 
-X = df[features]
+# derive features from the raw URL using the SAME extract_features()
+# pipeline that test.py / preprocess.py use.
+print("Extracting features from raw URLs via preprocess.py ...")
+X = pd.DataFrame(df["URL"].apply(extract_features).tolist(), columns=features)
 y = df["label"]
 
 X_train, X_test, y_train, y_test = train_test_split(
@@ -65,3 +72,15 @@ print("ROC-AUC  :", roc_auc_score(y_test, y_prob))
 
 print("\nClassification Report:")
 print(classification_report(y_test, y_pred))
+
+os.makedirs("models", exist_ok=True)
+
+model_data = {
+    "model": model,
+    "features": features
+}
+
+joblib.dump(model_data, "models/model.pkl")
+
+print("\nModel saved successfully:")
+print("models/model.pkl")
