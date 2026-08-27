@@ -11,7 +11,7 @@ from sklearn.metrics import (
     confusion_matrix,
 )
 
-from src.preprocessing.preprocess import extract_features
+from src.preprocessing.preprocess import extract_features_dict
 
 MODEL_PATH = "models/model.pkl"
 DATASET_PATH = "data/external_dataset.csv"
@@ -33,7 +33,7 @@ df = df.dropna(subset=["URL", "ClassLabel"]).reset_index(drop=True)
 
 print(f"Loaded {len(df)} rows from {DATASET_PATH}")
 
-extracted = df["URL"].apply(extract_features)
+extracted = df["URL"].apply(extract_features_dict)
 X_test = pd.DataFrame(extracted.tolist(), columns=features)
 
 y_test = df["ClassLabel"].astype(int)
@@ -53,3 +53,93 @@ print(confusion_matrix(y_test, y_pred))
 
 print("\nClassification Report:")
 print(classification_report(y_test, y_pred))
+
+MODEL_PATH = "models/model.pkl"
+
+
+# CLI prediction
+def predict_url(url):
+    model_data = joblib.load(MODEL_PATH)
+
+    model = model_data["model"]
+    features = model_data["features"]
+
+    feature_dict = extract_features_dict(url)
+
+    input_data = pd.DataFrame(
+        [feature_dict]
+    )
+
+    input_data = input_data[features]
+    
+    prediction = model.predict(
+        input_data
+    )[0]
+
+    confidence = model.predict_proba(
+        input_data
+    )[0].max()
+
+    return prediction, confidence
+
+print("\n==============================")
+
+print(" URL PHISHING DETECTOR CLI ")
+
+print("==============================")
+
+print("Type 'exit' to stop\n")
+
+while True:
+    user_url = input(
+        "Enter URL: "
+    ).strip()
+
+    if user_url.lower() == "exit":
+        print("Bye!")
+        break
+
+    if user_url == "":
+        continue
+
+    try:
+        pred, conf = predict_url(
+            user_url
+        )
+
+        label = (
+            "PHISHING"
+            if pred == 0
+            else
+            "LEGITIMATE"
+        )
+
+        print("\nResult")
+
+        print("----------------------")
+
+        print(
+            "URL:",
+            user_url
+        )
+
+        print(
+            "Prediction:",
+            label
+        )
+
+        print(
+            "Confidence:",
+            round(conf*100,2),
+            "%"
+        )
+
+        print("----------------------\n")
+
+
+
+    except Exception as e:
+        print(
+            "Error:",
+            e
+        )
