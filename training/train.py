@@ -17,7 +17,6 @@ features = [
     "URLLength",
     "DomainLength",
     "IsDomainIP",
-    "URLSimilarityIndex",
     "NoOfSubDomain",
     "HasObfuscation",
     "NoOfObfuscatedChar",
