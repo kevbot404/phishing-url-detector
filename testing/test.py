@@ -1,7 +1,7 @@
 import pandas as pd
 import joblib
 
-from training.preprocess import extract_features
+from preprocessing.preprocess import extract_features
 
 MODEL_PATH = "model/model.pkl"
 DATASET_PATH = "data/external_dataset.csv"
