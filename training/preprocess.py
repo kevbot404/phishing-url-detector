@@ -2,12 +2,29 @@ import re
 from urllib.parse import urlparse
 
 
+def normalize_url(url):
+    """
+    Make urlparse() correctly recognize URLs that don't contain
+    http:// or https://.
+    """
+    url = str(url).strip()
+
+    if not url:
+        return ""
+
+    if not re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*://", url):
+        url = "http://" + url
+
+    return url
+
+
 def get_url_length(url):
     return len(url)
 
 
 def get_domain(url):
-    return urlparse(url).netloc
+    parsed = urlparse(normalize_url(url))
+    return parsed.netloc
 
 
 def get_domain_length(url):
@@ -17,13 +34,15 @@ def get_domain_length(url):
 def is_domain_ip(url):
     domain = get_domain(url)
 
+    domain = domain.split(":")[0]
+
     pattern = r"^(?:\d{1,3}\.){3}\d{1,3}$"
+
     return int(bool(re.match(pattern, domain)))
 
 
 def get_no_of_subdomain(url):
     domain = get_domain(url)
-
     domain = domain.split(":")[0]
 
     parts = domain.split(".")
@@ -35,11 +54,18 @@ def get_no_of_subdomain(url):
 
 def has_obfuscation(url):
     suspicious_chars = ["@", "%"]
-    return int(any(char in url for char in suspicious_chars))
+
+    return int(
+        any(char in url for char in suspicious_chars)
+    )
 
 
 def get_no_of_obfuscated_char(url):
-    return sum(1 for char in url if char == "%" or char == "@")
+    return sum(
+        1
+        for char in url
+        if char == "%" or char == "@"
+    )
 
 
 def get_obfuscation_ratio(url):
@@ -87,7 +113,8 @@ def get_no_of_other_special_chars(url):
     special_chars = "!#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
 
     return sum(
-        1 for char in url
+        1
+        for char in url
         if char in special_chars
     )
 
@@ -100,7 +127,9 @@ def get_special_char_ratio(url):
 
 
 def is_https(url):
-    return int(urlparse(url).scheme.lower() == "https")
+    return int(
+        urlparse(normalize_url(url)).scheme.lower() == "https"
+    )
 
 
 def extract_features(url):
