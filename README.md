@@ -49,7 +49,7 @@ phishing-url-detector/
 ├── app/
 │   ├── index.html        # Frontend UI
 │   ├── style.css         # Styling
-│   ├── script.js         # ONNX inference logic
+│   ├── script.js         # ONNX prediction logic
 │   ├── preprocess.js     # Client-side feature extraction
 │   └── model/
 │       └── model.onnx    # Converted model for browser
@@ -58,8 +58,7 @@ phishing-url-detector/
 │   ├── training/         # Model training (RandomForest)
 │   ├── conversion/       # PKL → ONNX conversion
 │   └── testing/          # Model evaluation using another external dataset
-├── data/
-│   └── data.csv          # Training data
+├── data/                 # Training and testing data
 └── models/               # Saved models
 ```
 
@@ -114,7 +113,7 @@ Then open http://localhost:8000 in your browser.
 ## Usage
 
 1. Enter a **full** URL into the input field (e.g., `https://www.google.com`), otherwise you won't get good results.
-2. Click **Check URL** to run inference
+2. Click **Check URL** to run prediction
 3. Or click **Random URL** to test with a random example
 4. View the prediction (Phishing / Legitimate) and confidence score
 
