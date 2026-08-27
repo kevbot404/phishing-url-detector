@@ -13,7 +13,7 @@ from sklearn.metrics import (
     classification_report
 )
 
-from preprocessing.preprocess import extract_features
+from src.preprocessing.preprocess import extract_features
 
 df = pd.read_csv("data/data.csv")
 
