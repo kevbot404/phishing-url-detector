@@ -78,16 +78,32 @@ pip install -r requirements.txt
 ### Train the Model
 
 ```bash
-python src/training/train.py
+python -m src.training.train
 ```
+
+### Test on external dataset (Optional)
+
+```bash
+python -m src.testing.test --mode dataset
+```
+
+### Run CLI demo
+
+```bash
+python -m src.testing.test --mode cli
+```
+
+### Browser
 
 ### Convert to ONNX
 
 ```bash
-python src/conversion/pkl_to_onnx.py
+python -m src.conversion.pkl_to_onnx.py
 ```
 
-### Serve Locally (you have to move the .onnx file to app/)
+Then move the .onnx file from models/ to app/
+
+### Serve Locally
 
 ```bash
 python -m http.server 8000 --directory app
