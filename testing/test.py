@@ -3,8 +3,8 @@ import joblib
 
 from training.preprocess import extract_features
 
-MODEL_PATH = "model.pkl"
-DATASET_PATH = "external_dataset.csv"
+MODEL_PATH = "model/model.pkl"
+DATASET_PATH = "data/external_dataset.csv"
 
 model = joblib.load(MODEL_PATH)
 
